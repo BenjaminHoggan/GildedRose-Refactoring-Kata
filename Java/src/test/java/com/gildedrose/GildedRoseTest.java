@@ -246,4 +246,18 @@ class GildedRoseTest {
         // Then
         assertEquals(50, sut.items[0].quality);
     }
+
+    @Test
+    void Can_item_to_string_for_coverage() {
+        // Given
+        items[0].name = "Aged Brie";
+        items[0].sellIn = 12;
+        items[0].quality = 10;
+
+        // When
+        final String actual = items[0].toString();
+
+        // Then
+        assertEquals("Aged Brie, 12, 10", actual);
+    }
 }

@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -186,5 +187,63 @@ class GildedRoseTest {
 
         // Then
         assertEquals(8, sut.items[0].quality);
+    }
+
+    @Test
+    void Can_not_decrease_quality_below_0_when_sell_in_is_0_or_less() {
+        // Given
+        items[0].quality = 0;
+        items[0].sellIn = 0;
+
+        // When
+        sut.updateQuality();
+
+        // Then
+        assertEquals(0, sut.items[0].quality);
+    }
+
+    @Test
+    void Can_decrease_backstage_pass_quality_to_0_when_sell_in_is_0_or_less() {
+        // Given
+        items[0].name = "Backstage passes to a TAFKAL80ETC concert";
+        items[0].quality = 1000;
+        items[0].sellIn = 0;
+
+        // When
+        sut.updateQuality();
+
+        // Then
+        assertEquals(0, sut.items[0].quality);
+    }
+
+    @Test
+    void Can_increase_aged_brie_quality_by_2_when_sell_in_is_0_or_less() {
+        // Given
+        items[0].name = "Aged Brie";
+        items[0].quality = 10;
+        items[0].sellIn = 0;
+
+        // When
+        sut.updateQuality();
+
+        // Then
+        assertEquals(12, sut.items[0].quality);
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {48, 49, 50})
+    void Can_increase_quality_of_aged_brie_to_a_maximum_of_50_when_sell_in_is_0_or_less(
+        final int quality
+    ) {
+        // Given
+        items[0].name = "Aged Brie";
+        items[0].sellIn = 0;
+        items[0].quality = quality;
+
+        // When
+        sut.updateQuality();
+
+        // Then
+        assertEquals(50, sut.items[0].quality);
     }
 }

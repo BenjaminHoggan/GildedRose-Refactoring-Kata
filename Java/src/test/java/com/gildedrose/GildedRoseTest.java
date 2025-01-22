@@ -42,4 +42,15 @@ class GildedRoseTest {
         assertEquals(0, sut.items[0].quality);
     }
 
+    @Test
+    void Can_decrease_quality_by_1_when_quality_is_greater_than_0() {
+        // Given
+        items[0].quality = 1;
+
+        // When
+        sut.updateQuality();
+
+        // Then
+        assertEquals(0, sut.items[0].quality);
+    }
 }

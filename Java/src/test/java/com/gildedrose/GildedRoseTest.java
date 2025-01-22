@@ -2,6 +2,8 @@ package com.gildedrose;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -84,6 +86,62 @@ class GildedRoseTest {
         // Given
         items[0].quality = 50;
         items[0].name = "Aged Brie";
+
+        // When
+        sut.updateQuality();
+
+        // Then
+        assertEquals(50, sut.items[0].quality);
+    }
+
+    @Test
+    void Can_increase_quality_of_backstage_pass_by_1_when_sell_in_over_10() {
+        // Given
+        items[0].name = "Backstage passes to a TAFKAL80ETC concert";
+
+        // When
+        sut.updateQuality();
+
+        // Then
+        assertEquals(1, sut.items[0].quality);
+    }
+
+    @Test
+    void Can_increase_quality_of_backstage_pass_by_2_when_sell_in_between_5_and_11_exclusive() {
+        // Given
+        items[0].name = "Backstage passes to a TAFKAL80ETC concert";
+        items[0].sellIn = 6;
+
+        // When
+        sut.updateQuality();
+
+        // Then
+        assertEquals(2, sut.items[0].quality);
+    }
+
+    @Test
+    void Can_increase_quality_of_backstage_pass_by_3_when_sell_in_below_6() {
+        // Given
+        items[0].name = "Backstage passes to a TAFKAL80ETC concert";
+        items[0].sellIn = 5;
+
+        // When
+        sut.updateQuality();
+
+        // Then
+        assertEquals(3, sut.items[0].quality);
+    }
+
+    @ParameterizedTest
+    @CsvSource({"5,48", "5,49", "6,49"})
+    void Can_increase_quality_of_backstage_pass_to_a_maximum_of_50(
+        final int sellIn,
+        final int quality
+    ) {
+        // Given
+        items[0].name = "Backstage passes to a TAFKAL80ETC concert";
+        items[0].sellIn = sellIn;
+        items[0].quality = quality;
 
         // When
         sut.updateQuality();

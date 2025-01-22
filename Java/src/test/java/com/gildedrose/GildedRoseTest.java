@@ -66,4 +66,29 @@ class GildedRoseTest {
         // Then
         assertEquals(1, sut.items[0].quality);
     }
+
+    @Test
+    void Can_increase_quality_of_aged_brie_by_1() {
+        // Given
+        items[0].name = "Aged Brie";
+
+        // When
+        sut.updateQuality();
+
+        // Then
+        assertEquals(1, sut.items[0].quality);
+    }
+
+    @Test
+    void Can_not_increase_quality_of_aged_brie_when_quality_already_50() {
+        // Given
+        items[0].quality = 50;
+        items[0].name = "Aged Brie";
+
+        // When
+        sut.updateQuality();
+
+        // Then
+        assertEquals(50, sut.items[0].quality);
+    }
 }

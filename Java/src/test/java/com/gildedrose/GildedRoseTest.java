@@ -149,4 +149,42 @@ class GildedRoseTest {
         // Then
         assertEquals(50, sut.items[0].quality);
     }
+
+    @Test
+    void Can_decrease_sell_in_by_1() {
+        // Given
+        items[0].sellIn = 1;
+
+        // When
+        sut.updateQuality();
+
+        // Then
+        assertEquals(0, sut.items[0].sellIn);
+    }
+
+    @Test
+    void Can_not_decrease_sell_in_when_name_is_sulfuras() {
+        // Given
+        items[0].name = "Sulfuras, Hand of Ragnaros";
+        items[0].sellIn = 1;
+
+        // When
+        sut.updateQuality();
+
+        // Then
+        assertEquals(1, sut.items[0].sellIn);
+    }
+
+    @Test
+    void Can_decrease_quality_by_2_when_sell_in_is_0_or_less() {
+        // Given
+        items[0].quality = 10;
+        items[0].sellIn = 0;
+
+        // When
+        sut.updateQuality();
+
+        // Then
+        assertEquals(8, sut.items[0].quality);
+    }
 }

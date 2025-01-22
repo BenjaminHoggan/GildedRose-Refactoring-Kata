@@ -53,4 +53,17 @@ class GildedRoseTest {
         // Then
         assertEquals(0, sut.items[0].quality);
     }
+
+    @Test
+    void Can_not_change_a_positive_quality_when_name_is_sulfuras() {
+        // Given
+        items[0].quality = 1;
+        items[0].name = "Sulfuras, Hand of Ragnaros";
+
+        // When
+        sut.updateQuality();
+
+        // Then
+        assertEquals(1, sut.items[0].quality);
+    }
 }
